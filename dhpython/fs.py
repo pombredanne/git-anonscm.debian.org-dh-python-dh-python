@@ -18,9 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import difflib
 import logging
 import os
 import re
+import sys
 from filecmp import cmp as cmpfile
 from os.path import exists, dirname, isdir, islink, join, split, splitext
 from shutil import rmtree
@@ -97,8 +99,20 @@ def share_files(srcdir, dstdir, interpreter, options):
             continue
         if isdir(fpath1):
             share_files(fpath1, fpath2, interpreter, options)
-        elif cmpfile(fpath1, fpath2, shallow=False):
+        # Ignore differences in SOURCES.txt for comparison purposes.  See bug
+        # #801710 and also, we delete SOURCES.txt from the resulting binary
+        # package egg-info directories anyway.
+        elif i == 'SOURCES.txt' or cmpfile(fpath1, fpath2, shallow=False):
             os.remove(fpath1)
+        else:
+            log.warn('Paths differ: %s and %s', fpath1, fpath2)
+            # The files differed so we cannot collapse them.
+            with open(fpath1) as fp1:
+                fromlines = fp1.readlines()
+            with open(fpath2) as fp2:
+                tolines = fp2.readlines()
+            diff = difflib.unified_diff(fromlines, tolines, fpath1, fpath2)
+            sys.stderr.writelines(diff)
         # XXX: check symlinks
 
     if exists(srcdir) and not os.listdir(srcdir):
