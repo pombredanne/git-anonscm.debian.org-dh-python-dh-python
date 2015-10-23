@@ -7,9 +7,6 @@ dh-python (2.20150921) UNRELEASED; urgency=medium
   [ Barry Warsaw ]
   * dhpython/fs.py: When files cannot be shared between Python 3 versions
     because of differences, print a unified diff for diagnostic purposes.
-    Also ignore differences in SOURCES.txt files since depending on how
-    upstream's MANIFEST.in file is written, these can contain Debian build
-    artifacts that cause them to differ between builds.  closes: 801710
 
  -- Piotr Ożarowski <piotr@debian.org>  Mon, 21 Sep 2015 22:57:44 +0200
 
