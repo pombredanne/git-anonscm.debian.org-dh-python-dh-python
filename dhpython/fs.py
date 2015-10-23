@@ -99,10 +99,7 @@ def share_files(srcdir, dstdir, interpreter, options):
             continue
         if isdir(fpath1):
             share_files(fpath1, fpath2, interpreter, options)
-        # Ignore differences in SOURCES.txt for comparison purposes.  See bug
-        # #801710 and also, we delete SOURCES.txt from the resulting binary
-        # package egg-info directories anyway.
-        elif i == 'SOURCES.txt' or cmpfile(fpath1, fpath2, shallow=False):
+        elif cmpfile(fpath1, fpath2, shallow=False):
             os.remove(fpath1)
         else:
             log.warn('Paths differ: %s and %s', fpath1, fpath2)
