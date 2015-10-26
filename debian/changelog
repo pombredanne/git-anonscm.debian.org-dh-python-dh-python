@@ -10,6 +10,10 @@ dh-python (2.20150921) UNRELEASED; urgency=medium
   * dhpython/fs.py: When files cannot be shared between Python 3 versions
     because of differences, print a unified diff for diagnostic purposes.
 
+  [ Barry Warsaw ]
+  * dhpython/fs.py: When files cannot be shared between Python 3 versions
+    because of differences, print a unified diff for diagnostic purposes.
+
  -- Piotr Ożarowski <piotr@debian.org>  Mon, 21 Sep 2015 22:57:44 +0200
 
 dh-python (2.20150826) unstable; urgency=medium
